@@ -34,15 +34,13 @@ Before migration, the application code, direct dependencies, and transitive depe
 
 > 在迁移之前，应用程序代码、直接依赖项和可传递依赖项都在类路径上，如图 9-1 所示。
 
-Migration starting point (➥ chapter9/spring-hibernate-starter)
-Figure 9-1. Migration starting point (➥ chapter9/spring-hibernate-starter)
+<Figures figure="9-1">Migration starting point (➥ chapter9/spring-hibernate-starter)</Figures>
 
 The end result of the migration is a codebase with a single module, using automatic modules for dependencies where necessary. Figure 9-2 shows the end result.
 
 > 迁移的最终结果是一个带有单个模块的代码库，并在必要时针对依赖项使用自动模块。图 9-2 显示了最终的结果。
 
-Application migrated (➥ chapter9/spring-hibernate)
-Figure 9-2. Application migrated (➥ chapter9/spring-hibernate)
+<Figures figure="9-2">Application migrated (➥ chapter9/spring-hibernate)</Figures>
 
 At the end of the chapter, we will also look at refactoring the application code itself to be more modular.
 
@@ -423,8 +421,7 @@ out -> lib/spring-context-4.3.2.RELEASE.jar
 out -> lib/spring-tx-4.3.2.RELEASE.jar
 ```
 
-Migration with automatic modules.
-Figure 9-3. Migration with automatic modules
+<Figures figure="9-3">Migration with automatic modules</Figures>
 
 Besides these compile-time dependencies, we have both an additional compile-time and run-time requirement that we can add by using --add-modules. Types from the java.naming platform module are used in the Hibernate API, requiring it to be available at compile-time, even when we don’t use this type explicitly in our code. Without adding the module explicitly, we would see this error:
 
@@ -578,8 +575,7 @@ This design has trade-offs, and you should be aware of them. For example, you ha
 
 > 应该可以看到，该设计进行了一定的权衡。例如，可以选择是创建一个单独的 API 模块还是从同样包含实现的模块中导出 API。第 5 章已经详细讨论过许多类似的选择。
 
-Design proposal for modularised application
-Figure 9-4. Application refactored
+<Figures figure="9-4">Application refactored</Figures>
 
 With this case study, you’ve seen all the tools and processes you need to migrate an existing classpath-based application to modules. Use jdeps to analyze your existing code and dependencies. Move libraries to the module path to turn them into automatic modules, allowing you to create a module descriptor for your application. When your application uses libraries that involve reflection, such as dependency injection, object-relational mapping, or serialization libraries, open packages and modules are the way to go.
 

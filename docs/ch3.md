@@ -482,8 +482,7 @@ As a first step, we separate the text-analysis algorithm and the main program in
 
 > 第一步，需要将文本分析算法和主程序分离成两个模块。这样一来，就可以在不同的前端模块上重复使用分析模块。主模块使用分析模块，如图 3-1 所示。
 
-EasyText in two modules
-Figure 3-1. EasyText in two modules
+<Figures figure="3-1">EasyText in two modules</Figures>
 
 The easytext.cli module contains the command-line handling logic and file-parsing code. The easytext.analysis module contains the implementation of the Flesch-Kincaid algorithm. During the split of the single easytext module, we create two new modules with two different packages, as shown in Example 3-3.
 
@@ -578,8 +577,7 @@ Another check the module system enforces is for cyclic dependencies. In the prev
 
 > 模块系统执行的另一个检查是循环依赖。在上一章已经讲过，在编译时，模块之间的可读性关系必须是非循环的。而在模块中，仍然可以在类之间创建循环关系，过去一直是这么做的。从软件工程的角度来看，是否真的需要这么做存在争议，但只要愿意，也是可以的。但是，在模块级别将别无选择。模块之间的依赖关系必须形成非循环的有向图。推而广之，不同模块中的类之间也不能存在循环依赖。如果引入了循环依赖关系，编译器就不会接受。向分析模块添加 requireseasytext.cli，引入一个循环，如图 3-2 所示。
 
-EasyText modules with illegal cyclic dependency
-Figure 3-2. EasyText modules with an illegal cyclic dependency
+<Figures figure="3-2">EasyText modules with an illegal cyclic dependency</Figures>
 
 If you try to compile this, you run into the following error:
 
@@ -596,8 +594,7 @@ Note that cycles can be indirect as well, as illustrated in Figure 3-3. These ca
 
 > 请注意，循环也可以是间接的，如图 3-3 所示。虽然在实践中以下情况不太常见，但被视为与直接循环相同：它们导致 Java 模块系统发生错误。
 
-Cycles can be indirect as well.
-Figure 3-3. Cycles can be indirect as well
+<Figures figure="3-3">Cycles can be indirect as well</Figures>
 
 Many real-world applications do have cyclic dependencies between their components. In “Breaking Cycles”, we discuss how to prevent and break cycles in your application’s module graph.
 
@@ -646,8 +643,7 @@ We’ll use JavaFX to create a modest GUI for EasyText. As of Java 8, the JavaFX
 
 > 使用 JavaFX 为 EasyText 创建一个合适的 GUI。从 Java 8 起，JavaFX GUI 框架就已经成为 Java 平台的一部分，旨在取代旧的 Swing 框架。此 GUI 如图 3-4 所示。
 
-A simple GUI for EasyText
-Figure 3-4. A simple GUI for EasyText
+<Figures figure="3-4">A simple GUI for EasyText</Figures>
 
 When you click Calculate, the analysis logic is run on the text from the text field and the resulting value is shown in the GUI. Currently, we have only a single analysis algorithm that can be selected in the drop-down, but that will change later, given our extensibility requirements. For now, we’ll keep it simple and assume that the Flesch-Kincaid analysis is the only available algorithm. The code for the GUI Main class is quite straightforward, as shown in Example 3-4.
 
@@ -839,8 +835,7 @@ An interesting situation arises at run-time. As discussed, the javax.graphics mo
 
 > 在运行时出现了一个有趣的情况。如上所述，javax.graphics 模块在运行时动态地建立了与 easytext.gui 的可读性关系（如图 3-5 中粗箭头所示）。
 
-Readability edges at run-time
-Figure 3-5. Readability edges at run-time
+<Figures figure="3-5">Readability edges at run-time</Figures>
 
 But that means there is a cycle in the readability graph! How can this be? Cycles were supposed to be impossible. They are, at compile-time. In this case, we compile easytext.gui with a dependency on (and thus readability relation to) javafx.graphics. At run-time, javax.graphics automatically establishes a readability relation to easytext.gui when it reflectively instantiates Main. Readability relations can be cyclic at run-time. Because the export is qualified, only javafx.graphics can access our Main class. Any other module establishing a readability relation with easytext.gui won’t be able to access the javamodularity.easytext.gui package.
 
@@ -856,8 +851,7 @@ Looking at the other requirements, however, there’s still a lot to be desired.
 
 > 然而，看一下其他需求，会发现还有很多需要改进的地方。从目前情况来看，前端模块都会从分析模块中实例化一个特定的实现类（FleschKincaid）来完成自己的工作。虽然代码存在于单独的模块中，但此时却出现了紧耦合。如果想要使用不同的分析来扩展应用程序，那么应该怎么办呢？是否应该对每个前端模块进行修改以了解新的实现类呢？这听起来像是很差的封装。前端模块是否应该根据新引入的分析模块进行更新呢？这听起来很明显是非模块化的，也违反了在不修改或重新编译现有模块的情况下添加新的分析算法的要求。图 3-6 显示由两个前端和两个分析所带来的混乱（Coleman-Liau 是另一种众所周知的复杂性算法）。
 
-Every front-end module needs to depend on every analysis module and instantiate its exported implementation class.
-Figure 3-6. Every frontend module needs to depend on all analysis modules in order to instantiate their exported implementation classes
+<Figures figure="3-6">Every frontend module needs to depend on all analysis modules in order to instantiate their exported implementation classes</Figures>
 
 In summary, we have two issues to address:
 

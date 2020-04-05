@@ -116,8 +116,7 @@ JAR files seem to be the closest we can get to modules pre-Java 9. They have a n
 
 > 在 Java 9 出现之前，JAR 文件似乎是最接近模块的，它们拥有名称、对相关代码进行了分组并且提供了定义良好的公共接口。接下来看一个运行在 JVM 之上的典型 Java 应用程序示例，研究一下 JAR 作为模块的相关概念，如图 1-1 所示。
 
-A typical application running on the JVM
-Figure 1-1. MyApplication is a typical Java application, packaged as a JAR and using other libraries
+<Figures figure="1-1">MyApplication is a typical Java application, packaged as a JAR and using other libraries</Figures>
 
 There’s an application JAR called MyApplication.jar containing custom application code. Two libraries are used by the application: Google Guava and Hibernate Validator. There are three additional JARs as well. Those are transitive dependencies of Hibernate Validator, possibly resolved for us by a build tool like Maven. MyApplication runs on a pre-Java 9 runtime which itself exposes Java platform classes through several bundled JARs. The pre-Java 9 runtime may be a Java Runtime Environment (JRE) or a Java Development Kit (JDK), but in both cases it includes rt.jar (runtime library), which contains the classes of the Java standard library.
 
@@ -230,8 +229,7 @@ Each JAR becomes a module, containing explicit references to other modules. The 
 
 > 每个 JAR 都变成了一个模块，并包含了对其他模块的显式引用。hibernate-validator 的模块描述符表明了该模块使用了 jboss-logging、classmate 和 validation-api。一个模块拥有一个可公开访问的部分（位于顶部）以及一个封装部分（位于底部，并以一个挂锁表示）。这也就是为什么 MyApplication 不能再使用 Guava 的 Finalizer 类的原因。通过图 1-2，会发现 MyApplication 也使用了 validation-api 来注释它的类。此外，MyApplication 还显式依赖 JDK 中的一个名为 java.sql 的模块。
 
-MyApplication as modular application on top of modular Java 9.
-Figure 1-2. MyApplication as a modular application on top of modular Java 9
+<Figures figure="1-2">MyApplication as a modular application on top of modular Java 9</Figures>
 
 Figure 1-2 tells us much more about the application than in the classpath situation shown in Figure 1-1. All that could be said there is that MyApplication uses classes from rt.jar, like all Java applications—and that it runs with a bunch of JARs on the (possibly incorrect) classpath.
 

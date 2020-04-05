@@ -66,8 +66,7 @@ Even though the dependency graph may look a little overwhelming, we can glean a 
 
 > 尽管依赖关系图看起来有点让人无所适从，但是可以从中提取很多信息。只需观察一下该图，就可以大概了解 Java 标准库所提供的功能以及各项功能是如何关联的。例如，java.logging 有许多传入依赖项（incoming dependencies），这意味着许多其他平台模块使用了该模块。对于诸如日志之类的中心功能来说，这么做是很有意义的。模块 java.xml.bind（包含用于 XML 绑定的 JAXB API）有许多传出依赖项（outgoing dependencies），包括 java.desktop（这是一个意料之外的依赖项）。事实上，我们通过查看生成的依赖关系图并进行讨论而发现这个奇异之处，这本身就是一个巨大的进步。由于 JDK 的模块化，形成了清晰的模块边界以及显式的依赖关系。根据显式模块信息了解 JDK 之类的大型代码块是非常有价值的。
 
-Subset of platform modules in the JDK.
-Figure 2-1. Subset of platform modules in the JDK
+<Figures figure="2-1">Subset of platform modules in the JDK</Figures>
 
 Another thing to note is how all arrows in the dependency graph point downward. There are no cycles in this graph. That’s not by accident: the Java module system does not allow compile-time circular dependencies between modules.
 
@@ -241,8 +240,7 @@ Readability is not transitive by default. We can illustrate this by looking at t
 
 > 默认情况下，可读性是不可传递的。可以通过查看 java.prefs 的传入和传出“读取边”来说明这一点，如图 2-2 所示。
 
-Readability is not transitive
-Figure 2-2. Readability is not transitive: java.desktop does not read java.xml through java.prefs
+<Figures figure="2-2">Readability is not transitive: java.desktop does not read java.xml through java.prefs</Figures>
 
 Here, java.desktop reads java.prefs (among other modules, left out for clarity). We’ve already established that this means java.desktop can access public types from the java.util.prefs package. However, java.desktop cannot access types from java.xml through its dependency on java.prefs. It just so happens that java.desktop does use types from java.xml as well. That’s why java.desktop has its own requires java.xml clause in its module descriptor. In Figure 2-1, this dependency is also visible.
 
@@ -331,8 +329,7 @@ With this module descriptor, the implied readability edges in Figure 2-3 are in 
 
 > 使用上述模块描述符生成如图 2-3 所示的隐式可读性边。
 
-Implied readability (requires transitive) shown with double-lined edges.
-Figure 2-3. The effect of implied readability (requires transitive) shown with bold edges
+<Figures figure="2-3">The effect of implied readability (requires transitive) shown with bold edges</Figures>
 
 Implied readability on java.xml and java.logging (the bold edges in Figure 2-3) is granted to app because java.sql uses requires transitive (solid edges in Figure 2-3) for those modules. Because app does not export anything and uses only java.sql for its encapsulated implementation, a normal requires clause is enough (dashed edge in Figure 2-3). When you need another module for internal uses, a normal requires suffices. If, on the other hand, types from another module are used in exported types, requires transitive is in order. In “API Modules”, we’ll discuss how and when implied readability is important for your own modules in more detail.
 

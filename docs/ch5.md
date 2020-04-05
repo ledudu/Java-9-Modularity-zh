@@ -194,8 +194,7 @@ When another module requires the API module, you want it to be usable as is. You
 
 > 2.5 节介绍了基于平台模块的隐式可读性。接下来看一个来自 EasyText 域的示例，了解一下隐式可读性如何帮助创建自包含和完全自描述的 API 模块。图 5-1 所示的示例由三个模块组成。
 
-Three modules, without implied readability yet.
-Figure 5-1. Three modules, without implied readability yet
+<Figures figure="5-1">Three modules, without implied readability yet</Figures>
 
 In this example, the TextRepository interface in Example 5-1 lives in the module easytext.repository.api, and the Text class that its findText method returns lives in another module, easytext.domain.api. The module-info.java of easytext.client (which calls the TextRepository) starts out like Example 5-2.
 
@@ -315,8 +314,7 @@ Note the additional transitive keyword in the exports clause. It effectively say
 
 > 请注意 exports 子句中额外的关键字 transitive。实际上是在说，存储库模块读取 easytext.domain.api，并且每个需要 easytext.repository.api 的模块也会自动读取 easytext.domain.api，如图 5-2 所示。
 
-Implied readability edge
-Figure 5-2. Implied readability relation set up by requires transitive, shown as a bold edge
+<Figures figure="5-2">Implied readability relation set up by requires transitive, shown as a bold edge</Figures>
 
 Now, the example compiles without problems. The client module can read the Text class through the requires transitive clause in the repository’s module descriptor. Implied readability allows the repository module to express that its own exported packages are not enough to use the module.
 
@@ -362,11 +360,9 @@ Figure 5-3 illustrates this problem. Modules easytext.analysis.coleman and easyt
 
 > 图 5-3 说明了这个问题。模块 easytext.analysis.coleman 和 easytext. analysis 提供了一个 Analyzer 接口实现作为服务，后者除了提供一个实现之外，还导出 API。但是，easytext.analysis（而不是 API）中的实现需要 syllablecounter 模块。此时如果 syllablecounter 不在模块路径上，即使 easytext.analysis.coleman 中的 API 替换实现不需要 syllablecounter 模块也无法运行。将 API 分离到自己的模块可以避免此类问题的出现，如图 5-4 所示。
 
-When the API is in a module with an implementation (like in the `easytext.analysis` module here), the dependencies of the implementation (in this case `syllablecounter`) transitively burden alternative implementations well.
-Figure 5-3. When the API is in a module with an implementation (as in the easytext.analysis module here), the dependencies of the implementation (in this case syllablecounter) transitively burden alternative implementations as well
+<Figures figure="5-3">When the API is in a module with an implementation (as in the easytext.analysis module here), the dependencies of the implementation (in this case syllablecounter) transitively burden alternative implementations as well</Figures>
 
-Separate API module
-Figure 5-4. A separate API module works better when there are multiple implementations
+<Figures figure="5-4">A separate API module works better when there are multiple implementations</Figures>
 
 Towards the end of Chapter 3 and in Chapter 4, we introduced a separate API module for the EasyText Analyzer interface. Whenever you have (or expect to have) multiple implementations of the API, it makes sense to extract the public API into its own module. This is certainly the case here: the whole idea was to make EasyText extensible with new analysis functionality. When the implementations are provided as a service, this leads to the pattern in Figure 5-4 when extracting an API module.
 
@@ -404,8 +400,7 @@ Now, if the library user adds a dependency on library, all three library modules
 
 > 现在，如果库用户添加了对库的依赖关系，那么所有三个库模块都将以传递的方式解析，并且它们的导出类型对应用程序是可读的。图 5-5 显示了新的情况。当然，如果需要的话，依然可以依赖于一个特定的模块。
 
-Implied readability edge
-Figure 5-5. The application module can use all exported types from the three library modules through the aggregator module library. Implied readability edges are shown with bold edges.
+<Figures figure="5-5">The application module can use all exported types from the three library modules through the aggregator module library. Implied readability edges are shown with bold edges.</Figures>
 
 Because aggregator modules are lightweight, it’s perfectly possible to create several different aggregator modules. For example, you could provide several profiles or distributions of a library, targeted towards specific users.
 
@@ -459,11 +454,9 @@ The solution, shown in Figure 5-7, is to replace largelibrary with an aggregator
 
 > 如图 5-7 所示的解决方案使用了一个同名的聚合器模块替换了 largelibrary。该聚合器模块为新的、更小的模块设置了隐式可读性。
 
-Module `largelibrary` before the split.
-Figure 5-6. Module largelibrary before the split
+<Figures figure="5-6">Module largelibrary before the split</Figures>
 
-Module `largelibrary` after the split.
-Figure 5-7. Module largelibrary after the split
+<Figures figure="5-7">Module largelibrary after the split</Figures>
 
 The existing packages, both exported and encapsulated, are distributed over the newly introduced modules. New users of the library now have a choice of using either one of the individual modules, or largelibrary for readability on the whole API. Existing users of the library do not have to change their code or module descriptors when upgrading to this new version of largelibrary.
 
@@ -477,8 +470,7 @@ In that case, it makes sense to create two modules, as shown in Figure 5-8.
 
 > 此时，创建两个模块是有意义的，如图 5-8 所示。
 
-Alternative approach to splitting `largelibrary`.
-Figure 5-8. Alternative approach to splitting largelibrary
+<Figures figure="5-8">Alternative approach to splitting largelibrary</Figures>
 
 Consumers of largelibrary can keep using it as is, or require only the largelibrary.core module to use a subset of the functionality. This approach is implemented with the following module descriptor for largelibrary:
 
@@ -512,8 +504,7 @@ One scenario you can run into when splitting modules is the introduction of spli
 
 > 在拆分模块时，需要考虑的一种情况是拆分包的引入。拆分包（split package）是跨多个模块的单个包，如图 5-9 所示。当模块划分与现有的包边界不能保持一致时就会产生拆分包。
 
-Two modules containing the same packages, but different classes.
-Figure 5-9. Two modules containing the same packages but different classes
+<Figures figure="5-9">Two modules containing the same packages but different classes</Figures>
 
 In this example, module.one and module.two both contain classes from the same packages called splitpackage and splitpackage.internal.
 
@@ -589,8 +580,7 @@ We start out with two JAR files: authors.jar and books.jar. Each JAR contains a 
 
 > 首先，从两个 JAR 文件开始：authors.jar 和 books.jar。每个 JAR 包含一个类（分别是 Author 和 Book），并且相互引用。如果只是将现有的 JAR 转换为模块化的 JAR，那么循环依赖就变得更加明显，如图 5-10 所示。
 
-These modules won't compile or resolve because of their cyclic dependency.
-Figure 5-10. These modules won’t compile or resolve because of their cyclic dependency
+<Figures figure="5-10">These modules won’t compile or resolve because of their cyclic dependency</Figures>
 
 The first question we should answer is: what is the correct relation between those modules? There’s no one-size-fits-all approach to be taken here. We need to zoom in on the code, and see what it’s trying to accomplish. Only then can the question of what’s appropriate be answered. We’ll explore this question based on Example 5-3.
 
@@ -664,8 +654,7 @@ Now Author can implement this interface. It already has the required getName imp
 
 > 现在，Author 可以实现这个接口，且它已经有了所需的 getName 实现。Book 实现需要使用的是 Named，而不是 Author。最终，模块结构如图 5-11 所示。这样做还有一个额外的好处，即不再需要导出 javamodularity.authors 包。
 
-The `Named` interface breaks the cyclic dependency.
-Figure 5-11. The Named interface breaks the cyclic dependency
+<Figures figure="5-11">The Named interface breaks the cyclic dependency</Figures>
 
 This is far the from the only solution. In a larger system where multiple other components use Author similarly, the Named interface can also be lifted into its own module. For this example, that would lead to a triangular dependency graph with Named in the top module, and both the books and authors modules pointing to it.
 
@@ -1040,8 +1029,7 @@ Figure 5-12 shows the steps involved with building a source module application t
 
 > 图 5-12 显示了构建一个依赖于两个模块化 JAR（lib 和 foo）的源模块 application 所涉及的步骤。在构建时，构建工具使用来自 POM 文件的信息从存储库下载正确版本的依赖项。在此过程中出现的任何版本冲突必须由构建工具的冲突解决算法来解决。下载的模块化 JAR 被放在模块路径上进行编译。然后，Java 编译器解析由模块路径上的模块信息描述符以及 application 所引导的模块图。有关现有构建工具如何处理模块的更多详细信息请参阅第 11 章。
 
-Build tools for version selection
-Figure 5-12. Build tools select the right version of a dependency to put on the module path
+<Figures figure="5-12">Build tools select the right version of a dependency to put on the module path</Figures>
 
 1. A build tool such as Maven or Gradle downloads dependencies from a repository such as Maven Central. Version information in a build descriptor (for example, pom.xml) controls which versions are downloaded.
 2. The build tool sets up the module path with the downloaded versions.

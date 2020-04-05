@@ -62,8 +62,7 @@ Let’s put the factory in its own module for now, as shown in Figure 4-1.
 
 > 接下来，将工厂模块暂时放置到自己的模块中，如图 4-1 所示。
 
-Factory
-Figure 4-1. The factory module decouples the frontends from the analysis implementation modules. There is no requires relation from the frontend modules to the analysis implementation modules.
+<Figures figure="4-1">The factory module decouples the frontends from the analysis implementation modules. There is no requires relation from the frontend modules to the analysis implementation modules.</Figures>
 
 Now, the frontend modules know about only the API and the factory:
 
@@ -264,8 +263,7 @@ With these changes, we have refactored our EasyText code from a partially decoup
 
 > 完成了上述更改之后，将 EasyText 代码从部分解耦的工厂结构重构为完全模块化和可扩展的结构，如图 4-2 所示。
 
-Structure of Easytext using ServiceLoader for extensibilitys
-Figure 4-2. Structure of EasyText using ServiceLoader for extensibility
+<Figures figure="4-2">Structure of EasyText using ServiceLoader for extensibility</Figures>
 
 The code is fully decoupled because the CLI module doesn’t need to know anything about modules providing Analyzer implementations. The application is easily extensible because we can add a new Analyzer implementation by simply adding a new provider module to the module path. Any services provided by these additional modules are picked up automatically through the ServiceLoader service discovery. No code changes or recompilation are necessary. Arguably the best part is that the code is clean. Programming with services is just as simple as writing plain Java code (that’s because it is plain Java code), but the impact on architecture and design is quite positive.
 
@@ -671,8 +669,7 @@ The implications of this extension to module resolution become clearer by lookin
 
 > 通过一个示例，可以更清楚地了解这个扩展对模块解析所产生的影响。在图 4-3 中，从模块解析的角度再看一下 EasyText 示例。
 
-Service binding influences module resolution.
-Figure 4-3. Service binding influences module resolution
+<Figures figure="4-3">Service binding influences module resolution</Figures>
 
 We assume there are five modules on the module path: cli (the root module), api, kincaid, coleman, and an imaginary module syllablecounter. Module resolution starts with cli. It has a requires relation to api, so this module is added to the set of resolved modules. So far, nothing new.
 

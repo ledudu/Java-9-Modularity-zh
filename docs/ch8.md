@@ -165,8 +165,7 @@ The compiler is clearly not happy! Although jackson-databind-2.8.8.jar is still 
 
 > 此时，编译器显然不开心！尽管 jackson-databind-2.8.8.jar 仍然在类路径中，但编译器却告知无法在模块中使用。模块不能读取类路径，所以模块不能访问类路径上的类型，如图 8-1 所示。
 
-Modules don't read the classpath.
-Figure 8-1. Modules don’t read the classpath
+<Figures figure="8-1">Modules don’t read the classpath</Figures>
 
 Not being able to read from the classpath is a good thing, even when it requires some work during migration, because we want to be explicit about our dependencies. When modules can read the classpath, besides their explicit dependencies, all bets are off.
 
@@ -277,8 +276,7 @@ The jackson-databind-2.8.8.jar JAR file is removed from the classpath, and a mod
 
 > 将 jackson-databind-2.8.8.jar 文件从类路径中移除，并配置了一个模块路径，指向 mods 目录。图 8-2 提供了所有代码的概述。
 
-Non-modular JARs on the module path become automatic modules. The classpath becomes the unnamed module.
-Figure 8-2. Nonmodular JARs on the module path become automatic modules. The classpath becomes the unnamed module.
+<Figures figure="8-2">Nonmodular JARs on the module path become automatic modules. The classpath becomes the unnamed module.</Figures>
 
 To run the program, we also have to update the java invocation:
 
@@ -482,8 +480,7 @@ Figure 8-3 illustrates the difference between automatic modules and explicit mod
 
 > 图 8-3 显示了当读取未命名模块时自动模块和显式模块之间的区别。显式模块只能读取其他显式模块和自动模块。而自动模块可读取所有模块，包括未命名模块。
 
-Only automatic modules can read the classpath.
-Figure 8-3. Only automatic modules can read the classpath
+<Figures figure="8-3">Only automatic modules can read the classpath</Figures>
 
 The readability to the unnamed module is only a mechanism to facilitate automatic modules in a mixed classpath/module path migration scenario. If we were to use a type from Jackson Core directly in our code (as opposed to from an automatic module), we would have to move Jackson Core to the module path as well. Let’s try this in Example 8-3.
 

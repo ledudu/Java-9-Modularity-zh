@@ -72,8 +72,7 @@ Exporting a package does not allow a module using those exported types to reflec
 
 > 导出一个包并不意味着允许使用这些导出类型的模块反射包中的非公共部分。在 Java 中，深度反射由反射对象上的 setAccessible 方法提供支持。它绕过了检查，从而可以访问不可访问的部分。在模块系统和强封装出现之前，setAccessible 基本上不会失败。但如果使用了模块系统，那么规则就发生了变化。图 6-1 显示了不再适用的场景。
 
-Module `deepreflection` exports a package containing class `Exported` and encapsulates the `NotExported` class. The snippets (assumed to be in another module) show reflection only works on public parts of exported types. Only `Exported.doWork` can be accessed reflectively, all others lead to exceptions.
-Figure 6-1. Module deepreflection exports a package containing class Exported and encapsulates the NotExported class. The snippets (assumed to be in another module) show reflection works only on public parts of exported types. Only Exported::doWork can be accessed reflectively; all others lead to exceptions.
+<Figures figure="6-1">Module deepreflection exports a package containing class Exported and encapsulates the NotExported class. The snippets (assumed to be in another module) show reflection works only on public parts of exported types. Only Exported::doWork can be accessed reflectively; all others lead to exceptions.</Figures>
 
 So we’re left in the situation where many popular libraries want to perform deep reflection, whether a type is exported or not. Because of strong encapsulation, they can’t. And even if implementation classes were exported, deep reflection on nonpublic parts is prohibited.
 
@@ -113,8 +112,7 @@ With Java 9, two new methods for reflection objects are added: canAccess and try
 
 > 在 Java 9 中，添加了两个反射对象的新方法：canAccess 和 trySetAccessible（都是在 java.lang.reflect.AccessibleObject 中定义的）。这些方法考虑到这样一个新的现实，即深度反射并不总是被允许的。你可以使用这些方法，而不是处理来自 setAccessible 的异常。
 
-Scenarios showing deep reflection works for all types in an open module.
-Figure 6-2. With an open module, all types in all packages are open for deep reflection at run-time. No exceptions are thrown when performing deep reflection from another module.
+<Figures figure="6-2">With an open module, all types in all packages are open for deep reflection at run-time. No exceptions are thrown when performing deep reflection from another module.</Figures>
 
 Opening a whole module is somewhat crude. It’s convenient for when you can’t be sure what types are used at run-time by a library or framework. As such, open modules can play a crucial role in migration scenarios when introducing modules into a codebase. More on this in Chapter 8.
 
@@ -212,8 +210,7 @@ Our example application covers two domains: orders and customers. These are clea
 
 > 该示例应用程序涵盖两个领域：orders 和 customers。显而易见，它们都是单独的模块，同时，customers 域拆分为 API 和实现模块。main 模块使用了这两种服务，但又不希望与这两种服务的实现细节产生任何耦合。为此，对这两个服务实现类进行了封装，只有接口被导出并可以被 main 模块访问。
 
-Overview of an application `main` using a dependency injection library `spruice`. Requires relations between modules are shown as solid lines, run-time deep reflection on types in open packages is shown as dashed lines.
-Figure 6-3. Overview of an application main using a dependency injection library spruice. Requires relations between modules are shown as solid edges, and run-time deep reflection on types in open packages is shown as dashed edges.
+<Figures figure="6-3">Overview of an application main using a dependency injection library spruice. Requires relations between modules are shown as solid edges, and run-time deep reflection on types in open packages is shown as dashed edges.</Figures>
 
 So far, the story is quite similar to the approach described in Chapter 4 on services. The main module is nicely decoupled from implementation specifics. However, this time we’re not going to provide and consume the services through ServiceLoader. Rather, we are going to use the DI framework to inject OrderService and CustomerService implementations into Application. Either we configure spruice explicitly with the correct wiring of services, or we use annotations, or a combination of both approaches. Annotations such as @Inject are often used to identify injection points that are matched on type with injectable instances:
 
@@ -286,8 +283,7 @@ The java.lang.Module class is the entry point for reflection on modules. Figure 
 
 > java.lang.Module 类是对模块反射的入口点。Module 及其相关类如图 6-4 所示。它有一个 ModuleDescriptor，提供了有关 module-info 内容的运行时视图。
 
-A condensed class diagram of `Module` and related classes.
-Figure 6-4. A simplified class diagram of Module and related classes
+<Figures figure="6-4">A simplified class diagram of Module and related classes</Figures>
 
 You can obtain a Module instance through a Class from within a module:
 
@@ -521,8 +517,7 @@ In Figure 6-5, a simplified example of the boot layer is shown after starting a 
 
 > 在图 6-5 中，显示了在启动需要 java.sql 的 application 模块之后的引导层的简化示例。
 
-Modules in the boot layer after starting module `application`.
-Figure 6-5. Modules in the boot layer after starting module application
+<Figures figure="6-5">Modules in the boot layer after starting module application</Figures>
 
 (In reality, the boot layer contains many more modules because of service binding of platform modules.)
 
@@ -583,8 +578,7 @@ To expand on the example, let’s say rootmodule requires the javafx.controls pl
 
 > 为了扩展这个示例，假设 rootmodule 需要 javafx.controls 平台模块和 library（一个驻留在．/modules 目录中的辅助模块）。解析完配置并构建新层后，结果如图 6-6 所示。
 
-A new layer with the boot layer as its parent.
-Figure 6-6. A new layer with the boot layer as its parent
+<Figures figure="6-6">A new layer with the boot layer as its parent</Figures>
 
 Readability relations can cross layer boundaries. The requires clause of rootmodule to javafx.controls has been resolved to the platform module in the boot layer. On the other hand, the requires clause to library was resolved in the newly constructed layer, because that module is loaded along with rootmodule from the filesystem.
 
@@ -602,8 +596,7 @@ All examples of layers you’ve seen so far consisted of new layers pointing to 
 
 > 到目前为止，所看到的所有层示例都是以引导层作为父层的新层所组成的。但是，层也可以指向除引导层之外的父层，甚至有可能一个层有多个父层。如图 6-7 所示：第 3 层指向第 1 层和第 2 层作为其父节点。
 
-Layers can form an acyclic graph.
-Figure 6-7. Layers can form an acyclic graph
+<Figures figure="6-7">Layers can form an acyclic graph</Figures>
 
 Static defineModules* methods on ModuleLayer accept a list of parent layers when constructing new layers, instead of calling any of the nonstatic defineModules* methods on a parent layer instance directly. Later, in Figure 6-12, you’ll see those static methods in action. The important thing to remember is that layers can form an acyclic graph, just like modules within a layer.
 
@@ -636,8 +629,7 @@ Still, it’s good to be aware of the way classloaders interact with the module 
 
 > 不过，了解类加载器与模块系统的交互方式是很有帮助的。再来看一下图 6-5，其中一个模块 application 被加载到引导层。此时仅对所参与的类加载器感兴趣，如图 6-8 所示。
 
-Classloaders in the boot layer when starting module `application`.
-Figure 6-8. Classloaders in the boot layer when starting module application
+<Figures figure="6-8">Classloaders in the boot layer when starting module application</Figures>
 
 Three classloaders are active in the boot layer when running an application from the module path. At the bottom of the delegation hierarchy is BootstrapClassLoader, also known as the primordial classloader. It’s a special classloader loading all essential platform module classes. Care has been taken to load classes from as few modules as possible in this classloader, because classes are granted all security permissions when loaded in the bootstrap loader.
 
@@ -664,8 +656,7 @@ So, the classloader view on the newly constructed layer from the example (as see
 
 > 因此，示例中新构建的层（如图 6-6 所示）的类加载器视图如图 6-9 所示。
 
-A single classloader is created for the new layer.
-Figure 6-9. A single classloader is created for all modules in the new layer
+<Figures figure="6-9">A single classloader is created for all modules in the new layer</Figures>
 
 The delegation between classloaders must respect the readability relations between modules, even across layers. It would be problematic if the new classloader didn’t delegate to AppClassLoader in the boot layer, but, for example, to BootstrapClass​Loader. Because rootmodule reads javafx.controls, it must be able to see and load those classes. Parent delegation of the new layer’s classloader to AppClassLoader ensures this. In turn, AppClassLoader delegates to PlatformClassLoader, which loads the classes from javafx.controls.
 
@@ -675,8 +666,7 @@ There are other methods to create a new layer. Another convenience method called
 
 > 还可以使用其他方法创建一个新层。另一个被称为 defineModulesWithManyLoaders 的简便方法为层中的每个模块创建一个新的类加载器，如图 6-10 所示。
 
-A single classloader is created for every module in the new layer.
-Figure 6-10. Every module within a layer constructed using defineModulesWithManyLoaders gets its own classloader
+<Figures figure="6-10">Every module within a layer constructed using defineModulesWithManyLoaders gets its own classloader</Figures>
 
 Again, each of these new classloaders delegates to the parent that is passed as an argument to defineModulesWithManyLoaders. If you need even more control over classloading in a layer, there’s the defineModules method. It takes a function mapping a string (module name) to a classloader. Providing such a mapping gives ultimate flexibility on when to create new classloaders for a new module or to assign existing classloaders to modules in the layer. An example of such a mapping can be found in the JDK itself. The boot layer is created using defineModules with a custom mapping to one of the three classloaders shown previously in Figure 6-8.
 
@@ -704,8 +694,7 @@ In general, we can identify a plug-in host application that gets extended by plu
 
 > 一般来说，可以找到一个通过插件扩展的插件主机应用程序，如图 6-11 所示。
 
-Plugins provide additional functionality on top of the host application's functionality.
-Figure 6-11. Plug-ins provide additional functionality on top of the host application’s functionality
+<Figures figure="6-11">Plug-ins provide additional functionality on top of the host application’s functionality</Figures>
 
 Users interact with the host application, but experience extended functionality by virtue of the plug-ins. In most cases, the host application can function fine without any plug-ins as well. Plug-ins are usually developed independently of the host application. A clear boundary exists between the host application and the plug-ins. At run-time, the host application calls into the plug-ins for additional functionality. For this to work, there must be an agreed-upon API that the plug-ins implement. Typically, this is an interface that plug-ins implement.
 
@@ -783,8 +772,7 @@ After starting pluginhost with the two plug-in directories as arguments, the run
 
 > 在以两个插件目录作为参数启动 pluginhost 之后，会出现如图 6-12 所示的运行时情况。
 
-Every plugin is instantiated in its own layer.
-Figure 6-12. Every plug-in is instantiated in its own layer
+<Figures figure="6-12">Every plug-in is instantiated in its own layer</Figures>
 
 The first plug-in consists of a single module. Plug-in B, on the other hand, has a dependency on somelibrary. This dependency is automatically resolved when creating the configuration and layer for this plug-in. As long as somelibrary is in the same directory as plugin.b, things just work. Both plug-ins require the pluginhost.api module, which is part of the boot layer. All other interactions happen through services published by the plug-in modules and consumed by the host application.
 
@@ -843,8 +831,7 @@ Different versions of modules can be loaded simultaneously when constructing mul
 
 > 当构建多个层时，可以同时加载模块的不同版本。例如，如果插件 A、B 依赖于 somelibrary 不同的版本，就会出现上述情况，如图 6-13 所示。
 
-Different versions of the same module can be loaded in multiple layers.
-Figure 6-13. Different versions of the same module can be loaded in multiple layers
+<Figures figure="6-13">Different versions of the same module can be loaded in multiple layers</Figures>
 
 No code changes are necessary for this to work. Because in our layers modules are loaded in a new classloader, no clashes in package definitions can occur.
 
@@ -900,8 +887,7 @@ To appreciate how layers enable application container architectures, we’re goi
 
 > 为了了解层如何启用应用程序容器体系结构，接下来将创建一个小的应用程序容器。在查看实现之前，先回顾一下应用程序容器体系结构与基于插件的体系结构之间的不同之处（请参见图 6-14）。
 
-An application container hosts multiple applications, offering common functionality for use in those applications.
-Figure 6-14. An application container hosts multiple applications, offering common functionality for use in those applications
+<Figures figure="6-14">An application container hosts multiple applications, offering common functionality for use in those applications</Figures>
 
 As Figure 6-14 shows, many applications can be loaded into a single container. Applications have their own internal module structure, but crucially, they use common services offered by the container. Functionality such as transaction management or security infrastructure is often provided by containers. Application developers don’t have to reinvent the wheel for every application.
 
@@ -976,8 +962,7 @@ The main data structures for the container are an array of application descripto
 
 > 该容器的主要数据结构是一个应用程序描述符数组，以及一个用于跟踪已启动的 ContainerApplication 实例的数组。容器启动后，可以键入命令，比如 deploy 1 或 undeploy2，又或者 exit。这些数字指的是 apps 和 deployedApps 数组中的索引。为每个已部署的应用程序创建一个层。在图 6-15 中，可以看到两个应用程序部署（在输入了 deploy 1 和 deploy 2 之后）在各自的层中。
 
-Two application deployed in the container.
-Figure 6-15. Two applications deployed in the container
+<Figures figure="6-15">Two applications deployed in the container</Figures>
 
 The image is quite similar to Figure 6-12, save for the fact that the provides and uses relations are inverted. In platform.api, we find the service interfaces to the container functionality, such as platform.api.tx.TransactionManager. The platform.container module contains service providers for these interfaces, and contains the Launcher class we saw earlier. Of course, the container and applications in the real world probably consist of many more modules.
 
@@ -1056,8 +1041,7 @@ The most interesting line in the deployApp is where ModuleLayer.Controller::addO
 
 > deployApp 中最有趣的一行代码是调用 ModuleLayer.Controller::addOpens。它将 AppDescriptor 中所提及的包从应用程序的根模块开放给容器模块，如图 6-16 所示。
 
-At layer creation the packages `app.a` and `app.b` are opened to the `platform.container` module.
-Figure 6-16. At layer creation, the packages app.a and app.b are opened to the platform.container module
+<Figures figure="6-16">At layer creation, the packages app.a and app.b are opened to the platform.container module</Figures>
 
 This qualified opens enables the container to reflect over the packages app.a and app.b. In addition to addOpens(Module source, String pkg, Module target), you can call addExports(Module source, String pkg, Module target) or addReads(Module source, Module target) on a layer controller. With addExports, a previously encapsulated package can be exported (without being opened). And, by establishing readability with addReads, the target module can access the exported packages of the source module. In all cases, source modules must come from the layer that has been constructed. Layers can, in effect, reshape the dependencies and encapsulation boundaries of modules. As always, with great power comes great responsibility.
 

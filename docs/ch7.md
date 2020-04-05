@@ -404,8 +404,7 @@ This is a serious practical problem, which would break many existing application
 
 > 这是一个严重的实际问题，会破坏许多现有的应用服务器和相关工具。为了避免出现该问题，在基于类路径的场景中，默认情况下不会解析这些模块。接下来看一下图 7-1 所示的平台模块图。
 
-Subset of the JDK module graph showing modules only reachable through `java.se.ee`, not `java.se`.
-Figure 7-1. Subset of the JDK module graph showing modules reachable only through java.se.ee, not java.se
+<Figures figure="7-1">Subset of the JDK module graph showing modules reachable only through java.se.ee, not java.se</Figures>
 
 At the very top are the java.se and java.se.ee modules. Both are aggregator modules, modules that don’t contain code but group a set of more fine-grained modules. Aggregator modules are discussed in detail in “Aggregator Modules”. Most platform modules reside under java.se and are not shown here (but you can see the whole graph in Figure 2-1). The java.se.ee module aggregates the modules we are discussing, which are not part of the java.se aggregator module. This includes the java.xml.bind module, containing JAXB types.
 
