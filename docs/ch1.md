@@ -189,7 +189,7 @@ What if a class cannot be found on the classpath? Then you will get a run-time e
 
 > 如果在类路径中没有找到所需的类又会发生什么情况呢？此时会得到一个运行时异常。由于类会延迟加载，因此一些不幸的用户在首次运行应用程序并点击一个按钮时会出现找不到类的情况。JVM 无法在应用程序启动时有效地验证类路径的完整性，即无法预先知道类路径是否是完整的，或者是否应该添加另一个 JAR。显然，这并不够好。
 
-Graph Theory for Geeks by Oliver Widder link:http://geek-and-poke.com/geekandpoke/2011/7/27/graph-theory-for-geeks.html, CC-BY link:https://creativecommons.org/licenses/by/3.0/deed.en_US
+![](./jv9m_01in01.png)
 
 More insidious problems arise when duplicate classes are on the classpath. Let’s say you try to circumvent the manual setup of the classpath. Instead, you let Maven construct the right set of JARs to put on the classpath, based on the explicit dependency information in POMs. Since Maven resolves dependencies transitively, it’s not uncommon for two versions of the same library (say, Guava 19 and Guava 18) to end up in this set, through no fault of your own. Now both library JARs are flattened into the classpath, in an undefined order. Whichever version of the library classes comes first is loaded. However, other classes may expect a class from the (possibly incompatible) other version. Again, this leads to run-time exceptions. In general, whenever the classpath contains two classes with the same (fully qualified) name, even if they are completely unrelated, only one “wins.”
 

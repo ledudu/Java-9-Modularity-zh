@@ -377,7 +377,7 @@ Since Java 8, the JDK includes java.util.Base64, which is a much better alternat
 
 > 从 Java 8 开始，JDK 就包含了 java.util.Base64，这是一个更好的选择。在这种情况下，解决方案就很简单：必须迁移到公共 API 以便在 JDK 9 上运行。一般来说，迁移到 Java 9 将会暴露本章讨论的许多技术债务（technical debt）。
 
-Technical Debts by Oliver Widder link:http://geek-and-poke.com/geekandpoke/2013/11/20/technical-debts, CC-BY link:https://creativecommons.org/licenses/by/3.0/deed.en_US
+![](./jv9m_07in01.png)
 
 ## 7.5 Using JAXB and Other Java EE APIs 使用 JAXB 和其他 Java EE API
 
